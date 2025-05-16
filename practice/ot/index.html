@@ -1,0 +1,955 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>Overtyme Bar & Grill</title>
+  <style>
+    body, html {
+        margin: 0;
+        padding: 0;
+        font-family: Arial, sans-serif;
+        scroll-behavior: smooth;
+        background: #0a0a0a;
+        color: #ffffff;
+      }
+      
+      /* Navbar Styles */
+      .navbar {
+        position: fixed;
+        top: 0;
+        width: 100%;
+        background: #000000;
+        z-index: 1000;
+        border-bottom: 3px solid #ff0000;
+      }
+      
+      .nav-container {
+        display: flex;
+        justify-content: space-between;
+        align-items: center;
+        padding: 12px 18px;
+      }
+      
+      .nav-logo {
+        font-weight: bold;
+        font-size: 1.5rem;
+        color: #ff0000;
+        text-shadow: 1px 1px 3px #fff;
+      }
+      
+      .nav-toggle {
+        font-size: 1.8rem;
+        cursor: pointer;
+        display: none;
+        color: #ffcc00;
+      }
+      
+      .nav-links {
+        display: flex;
+        gap: 18px;
+      }
+      
+      .nav-links a {
+        color: #ffffff;
+        text-decoration: none;
+        padding: 10px 0;
+        font-weight: bold;
+        transition: color 0.3s ease, border-bottom 0.3s ease;
+      }
+      
+      .nav-links a:hover {
+        color: #ffcc00;
+        border-bottom: 2px solid #ff0000;
+      }
+      
+      /* Mobile Styles */
+      @media screen and (max-width: 768px) {
+        .nav-toggle {
+          display: block;
+        }
+      
+        .nav-links {
+          display: none;
+          flex-direction: column;
+          background-color: #111;
+          position: absolute;
+          top: 60px;
+          left: 0;
+          width: 100%;
+          text-align: center;
+          padding: 10px 0;
+          border-top: 2px solid #ff0000;
+        }
+      
+        .nav-links a {
+          padding: 12px 0;
+          border-top: 1px solid #222;
+        }
+      
+        .nav-links.show {
+          display: flex;
+        }
+      }
+      
+      header {
+        height: 100vh;
+        background: url('https://your-background-image.jpg') no-repeat center center/cover;
+        display: flex;
+        justify-content: center;
+        align-items: center;
+        position: relative;
+      }
+      
+      #logo {
+        width: 460px;
+        animation: pulse 2s infinite;
+        z-index: 10;
+      }
+      
+      @keyframes pulse {
+        0%, 100% { transform: scale(1); }
+        50% { transform: scale(1.1); }
+      }
+      
+      section {
+        padding: 80px 20px 40px;
+        text-align: center;
+        background-color: #121212;
+        border-top: 3px solid #ff0000;
+      }
+      
+      section h2 {
+        color: #ffcc00;
+        text-transform: uppercase;
+        letter-spacing: 2px;
+        margin-bottom: 20px;
+        text-shadow: 2px 2px 4px #000;
+      }
+      
+      .slideshow {
+        max-width: 90%;
+        margin: 10px auto;
+        border: 2px solid #ff0000;
+        border-radius: 12px;
+        overflow: hidden;
+      }
+      
+      .slideshow img {
+        width: 100%;
+        border-radius: 12px;
+        transition: transform 0.4s ease;
+      }
+      
+      .slideshow img:hover {
+        transform: scale(1.02);
+      }
+      
+      .menu-section .slideshow {
+        margin-bottom: 20px;
+      }
+      
+      .reservation-map {
+        max-width: 100%;
+        position: relative;
+        border: 2px solid #ff0000;
+        border-radius: 8px;
+        overflow: hidden;
+      }
+      
+      .reservation-map img {
+        width: 100%;
+      }
+      
+.hover-table {
+    position: absolute;
+    width: 10px;
+    height: 10px;
+    border-radius: 50%;
+    font-size: 12px;
+    background: #ff0000;
+    border: 2px solid #ffcc00;
+    cursor: pointer;
+    box-shadow: 0 0 6px #fff;
+    color: white;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    transform: translate(-50%, -50%);
+    transform-origin: center;
+    transition: transform 0.2s ease;
+}
+
+.hover-table:hover {
+  transform: translate(-50%, -50%) scale(1.5);
+}
+
+
+      
+      .gallery {
+        display: flex;
+        overflow-x: auto;
+        gap: 12px;
+        padding: 12px;
+      }
+      
+      .gallery img {
+        max-width: 90%;
+        border-radius: 10px;
+        flex: 0 0 auto;
+        border: 2px solid #ff0000;
+        transition: transform 0.3s ease;
+      }
+      
+      .gallery img:hover {
+        transform: scale(1.05);
+      }
+      
+      footer {
+        background-color: #000;
+        color: #ffffff;
+        text-align: center;
+        padding: 1rem 0;
+        border-top: 3px solid #ff0000;
+        font-size: 0.9rem;
+      }
+      
+      footer p {
+        margin: 0;
+        color: #ffcc00;
+      }
+
+
+.table1 {
+    position: absolute;
+
+    top: 27.75%;
+    left: 5.27%;
+    width: 11px;
+    height: 11px;
+    border-radius: 50%;
+    font-size: 8px;
+    background: #ff0000;
+    border: 2px solid #ffcc00;
+    cursor: pointer;
+    box-shadow: 0 0 6px #fff;
+    transform: translate(-50%, -50%);
+    transition: transform 1.3s ease;
+}
+.table2 {
+    position: absolute;
+
+    top: 45.25%;
+    left: 5.27%;
+    width: 11px;
+    height: 11px;
+    border-radius: 50%;
+    font-size: 8px;
+    background: #ff0000;
+    border: 2px solid #ffcc00;
+    cursor: pointer;
+    box-shadow: 0 0 6px #fff;
+    transform: translate(-50%, -50%);
+    transition: transform 0.3s ease;
+}
+.table3 {
+    position: absolute;
+
+    top: 62.65%;
+    left: 5.27%;
+    width: 11px;
+    height: 11px;
+    border-radius: 50%;
+    font-size: 8px;
+    background: #ff0000;
+    border: 2px solid #ffcc00;
+    cursor: pointer;
+    box-shadow: 0 0 6px #fff;
+    transform: translate(-50%, -50%);
+    transition: transform 0.3s ease;
+}
+
+.table4 {
+    position: absolute;
+    top: 87.65%;
+    left: 5.77%;
+    width: 11px;
+    height: 11px;
+    border-radius: 50%;
+    font-size: 8px;
+    background: #ff0000;
+    border: 2px solid #ffcc00;
+    cursor: pointer;
+    box-shadow: 0 0 6px #fff;
+    transform: translate(-50%, -50%);
+    transition: transform 0.3s ease;
+}
+.table5 {
+    position: absolute;
+    top: 87.65%;
+    left: 16.17%;
+    width: 11px;
+    height: 11px;
+    border-radius: 50%;
+    font-size: 8px;
+    background: #ff0000;
+    border: 2px solid #ffcc00;
+    cursor: pointer;
+    box-shadow: 0 0 6px #fff;
+    transform: translate(-50%, -50%);
+    transition: transform 0.3s ease;
+}
+
+.table6 {
+    position: absolute;
+    top: 87.65%;
+    left: 24.09%;
+    width: 11px;
+    height: 11px;
+    border-radius: 50%;
+    font-size: 8px;
+    background: #ff0000;
+    border: 2px solid #ffcc00;
+    cursor: pointer;
+    box-shadow: 0 0 6px #fff;
+    transform: translate(-50%, -50%);
+    transition: transform 0.3s ease;
+}
+.table7 {
+    position: absolute;
+    top: 87.65%;
+    left: 32.09%;
+    width: 11px;
+    height: 11px;
+    border-radius: 50%;
+    font-size: 8px;
+    background: #ff0000;
+    border: 2px solid #ffcc00;
+    cursor: pointer;
+    box-shadow: 0 0 6px #fff;
+    transform: translate(-50%, -50%);
+    transition: transform 0.3s ease;
+}
+.table8 {
+    position: absolute;
+    top: 64.65%;
+    left: 16.90%;
+    width: 11px;
+    height: 11px;
+    border-radius: 50%;
+    font-size: 8px;
+    background: #ff0000;
+    border: 2px solid #ffcc00;
+    cursor: pointer;
+    box-shadow: 0 0 6px #fff;
+    transform: translate(-50%, -50%);
+    transition: transform 0.3s ease;
+}
+.table9 {
+    position: absolute;
+    top: 61.65%;
+    left: 25.60%;
+    width: 11px;
+    height: 11px;
+    border-radius: 50%;
+    font-size: 8px;
+    background: #ff0000;
+    border: 2px solid #ffcc00;
+    cursor: pointer;
+    box-shadow: 0 0 6px #fff;
+    transform: translate(-50%, -50%);
+    transition: transform 0.3s ease;
+}
+.table10 {
+    position: absolute;
+    top: 46.65%;
+    left: 16.90%;
+    width: 11px;
+    height: 12px;
+    border-radius: 50%;
+    font-size: 8px;
+    background: #ff0000;
+    border: 2px solid #ffcc00;
+    cursor: pointer;
+    box-shadow: 0 0 6px #fff;
+    transform: translate(-50%, -50%);
+    transition: transform 0.3s ease;
+}
+.table11 {
+    position: absolute;
+    top: 38.65%;
+    left: 25.60%;
+    width: 11px;
+    height: 12px;
+    border-radius: 50%;
+    font-size: 8px;
+    background: #ff0000;
+    border: 2px solid #ffcc00;
+    cursor: pointer;
+    box-shadow: 0 0 6px #fff;
+    transform: translate(-50%, -50%);
+    transition: transform 0.3s ease;
+}
+.table12 {
+    position: absolute;
+    top: 29.65%;
+    left: 17.09%;
+    width: 11px;
+    height: 12px;
+    border-radius: 50%;
+    font-size: 8px;
+    background: #ff0000;
+    border: 2px solid #ffcc00;
+    cursor: pointer;
+    box-shadow: 0 0 6px #fff;
+    transform: translate(-50%, -50%);
+    transition: transform 0.3s ease;
+}
+.table13 {
+    position: absolute;
+    top: 12.15%;
+    left: 14.89%;
+    width: 11px;
+    height: 12px;
+    border-radius: 50%;
+    font-size: 8px;
+    background: #ff0000;
+    border: 2px solid #ffcc00;
+    cursor: pointer;
+    box-shadow: 0 0 6px #fff;
+    transform: translate(-50%, -50%);
+    transition: transform 0.3s ease;
+}
+.table14 {
+    position: absolute;
+    top: 12.15%;
+    left: 23.60%;
+    width: 11px;
+    height: 12px;
+    border-radius: 50%;
+    font-size: 8px;
+    background: #ff0000;
+    border: 2px solid #ffcc00;
+    cursor: pointer;
+    box-shadow: 0 0 6px #fff;
+    transform: translate(-50%, -50%);
+    transition: transform 0.3s ease;
+}
+.table15 {
+    position: absolute;
+    top: 38.65%;
+    left: 35.17%;
+    width: 11px;
+    height: 12px;
+    border-radius: 50%;
+    font-size: 8px;
+    background: #ff0000;
+    border: 2px solid #ffcc00;
+    cursor: pointer;
+    box-shadow: 0 0 6px #fff;
+    transform: translate(-50%, -50%);
+    transition: transform 0.3s ease;
+}
+.table16 {
+    position: absolute;
+    top: 62.55%;
+    left: 35.17%;
+    width: 11px;
+    height: 12px;
+    border-radius: 50%;
+    font-size: 8px;
+    background: #ff0000;
+    border: 2px solid #ffcc00;
+    cursor: pointer;
+    box-shadow: 0 0 6px #fff;
+    transform: translate(-50%, -50%);
+    transition: transform 0.3s ease;
+}
+.table17 {
+    position: absolute;
+    top: 41.35%;
+    left: 42.02%;
+    width: 11px;
+    height: 12px;
+    border-radius: 50%;
+    font-size: 8px;
+    background: #ff0000;
+    border: 2px solid #ffcc00;
+    cursor: pointer;
+    box-shadow: 0 0 6px #fff;
+    transform: translate(-50%, -50%);
+    transition: transform 0.3s ease;
+}
+.table18 {
+    position: absolute;
+
+    top: 58.55%;
+    left: 42.02%;
+    width: 11px;
+    height: 12px;
+    border-radius: 50%;
+    font-size: 8px;
+    background: #ff0000;
+    border: 2px solid #ffcc00;
+    cursor: pointer;
+    box-shadow: 0 0 6px #fff;
+    transform: translate(-50%, -50%);
+    transition: transform 0.3s ease;
+}
+
+.table19 {
+    position: absolute;
+    top: 49.45%;
+    left: 49.17%;
+    width: 11px;
+    height: 12px;
+    border-radius: 50%;
+    font-size: 8px;
+    background: #ff0000;
+    border: 2px solid #ffcc00;
+    cursor: pointer;
+    box-shadow: 0 0 6px #fff;
+    transform: translate(-50%, -50%);
+    transition: transform 0.3s ease;
+}
+.table20 {
+    position: absolute;
+    top: 41.55%;
+    left: 56.23%;
+    width: 11px;
+    height: 12px;
+    border-radius: 50%;
+    font-size: 8px;
+    background: #ff0000;
+    border: 2px solid #ffcc00;
+    cursor: pointer;
+    box-shadow: 0 0 6px #fff;
+    transform: translate(-50%, -50%);
+    transition: transform 0.3s ease;
+}
+
+.table21 {
+    position: absolute;
+    top: 58.65%;
+    left: 56.23%;
+    width: 11px;
+    height: 12px;
+    border-radius: 50%;
+    font-size: 8px;
+    background: #ff0000;
+    border: 2px solid #ffcc00;
+    cursor: pointer;
+    box-shadow: 0 0 6px #fff;
+    transform: translate(-50%, -50%);
+    transition: transform 0.3s ease;
+}
+.table22 {
+    position: absolute;
+    top: 87.65%;
+    left: 66.79%;
+    width: 11px;
+    height: 12px;
+    border-radius: 50%;
+    font-size: 8px;
+    background: #ff0000;
+    border: 2px solid #ffcc00;
+    cursor: pointer;
+    box-shadow: 0 0 6px #fff;
+    transform: translate(-50%, -50%);
+    transition: transform 0.3s ease;
+}
+.table23 {
+    position: absolute;
+    top: 87.65%;
+    left: 74.67%;
+    width: 11px;
+    height: 12px;
+    border-radius: 50%;
+    font-size: 8px;
+    background: #ff0000;
+    border: 2px solid #ffcc00;
+    cursor: pointer;
+    box-shadow: 0 0 6px #fff;
+    transform: translate(-50%, -50%);
+    transition: transform 0.3s ease;
+}
+.table24 {
+    position: absolute;
+    top: 87.65%;
+    left: 82.87%;
+    width: 11px;
+    height: 12px;
+    border-radius: 50%;
+    font-size: 8px;
+    background: #ff0000;
+    border: 2px solid #ffcc00;
+    cursor: pointer;
+    box-shadow: 0 0 6px #fff;
+    transform: translate(-50%, -50%);
+    transition: transform 0.3s ease;
+}
+.table25 {
+    position: absolute;
+    top: 62.65%;
+    left: 94.39%;
+    width: 11px;
+    height: 12px;
+    border-radius: 50%;
+    font-size: 8px;
+    background: #ff0000;
+    border: 2px solid #ffcc00;
+    cursor: pointer;
+    box-shadow: 0 0 6px #fff;
+    transform: translate(-50%, -50%);
+    transition: transform 0.3s ease;
+}
+.table26 {
+    position: absolute;
+    top: 44.95%;
+    left: 94.39%;
+    width: 11px;
+    height: 12px;
+    border-radius: 50%;
+    font-size: 8px;
+    background: #ff0000;
+    border: 2px solid #ffcc00;
+    cursor: pointer;
+    box-shadow: 0 0 6px #fff;
+    transform: translate(-50%, -50%);
+    transition: transform 0.3s ease;
+}
+.table27 {
+    position: absolute;
+    top: 27.25%;
+    left: 94.39%;
+    width: 11px;
+    height: 12px;
+    border-radius: 50%;
+    font-size: 8px;
+    background: #ff0000;
+    border: 2px solid #ffcc00;
+    cursor: pointer;
+    box-shadow: 0 0 6px #fff;
+    transform: translate(-50%, -50%);
+    transition: transform 0.3s ease;
+}
+.table28 {
+    position: absolute;
+    top: 60.15%;
+    left: 79.77%;
+    width: 11px;
+    height: 12px;
+    border-radius: 50%;
+    font-size: 8px;
+    background: #ff0000;
+    border: 2px solid #ffcc00;
+    cursor: pointer;
+    box-shadow: 0 0 6px #fff;
+    transform: translate(-50%, -50%);
+    transition: transform 0.3s ease;
+}
+.table29 {
+    position: absolute;
+    top: 60.15%;
+    left: 69.17%;
+    width: 11px;
+    height: 12px;
+    border-radius: 50%;
+    font-size: 8px;
+    background: #ff0000;
+    border: 2px solid #ffcc00;
+    cursor: pointer;
+    box-shadow: 0 0 6px #fff;
+    transform: translate(-50%, -50%);
+    transition: transform 0.3s ease;
+}
+.table30 {
+    position: absolute;
+    top: 40.65%;
+    left: 79.77%;
+    width: 11px;
+    height: 12px;
+    border-radius: 50%;
+    font-size: 8px;
+    background: #ff0000;
+    border: 2px solid #ffcc00;
+    cursor: pointer;
+    box-shadow: 0 0 6px #fff;
+    transform: translate(-50%, -50%);
+    transition: transform 0.3s ease;
+}
+.table31 {
+    position: absolute;
+    top: 40.65%;
+    left: 69.17%;
+    width: 11px;
+    height: 12px;
+    border-radius: 50%;
+    font-size: 8px;
+    background: #ff0000;
+    border: 2px solid #ffcc00;
+    cursor: pointer;
+    box-shadow: 0 0 6px #fff;
+    transform: translate(-50%, -50%);
+    transition: transform 0.3s ease;
+}
+.table32 {
+    position: absolute;
+    top: 20.65%;
+    left: 67.17%;
+    width: 11px;
+    height: 12px;
+    border-radius: 50%;
+    font-size: 8px;
+    background: #ff0000;
+    border: 2px solid #ffcc00;
+    cursor: pointer;
+    box-shadow: 0 0 6px #fff;
+    transform: translate(-50%, -50%);
+    transition: transform 0.3s ease;
+}
+.table33 {
+    position: absolute;
+    top: 20.65%;
+    left: 74.77%;
+    width: 11px;
+    height: 12px;
+    border-radius: 50%;
+    font-size: 8px;
+    background: #ff0000;
+    border: 2px solid #ffcc00;
+    cursor: pointer;
+    box-shadow: 0 0 6px #fff;
+    transform: translate(-50%, -50%);
+    transition: transform 0.3s ease;
+}
+.table34 {
+    position: absolute;
+    top: 20.65%;
+    left: 81.57%;
+    width: 11px;
+    height: 12px;
+    border-radius: 50%;
+    font-size: 8px;
+    background: #ff0000;
+    border: 2px solid #ffcc00;
+    cursor: pointer;
+    box-shadow: 0 0 6px #fff;
+    transform: translate(-50%, -50%);
+    transition: transform 0.3s ease;
+}
+/* Responsive Styles for Tablets and Desktops */
+@media screen and (min-width: 769px) {
+  .nav-container {
+    padding: 20px 40px;
+  }
+
+  .nav-logo {
+    font-size: 2rem;
+  }
+
+  .nav-links {
+    gap: 32px;
+  }
+
+  section {
+    padding: 100px 60px 60px;
+  }
+
+  section h2 {
+    font-size: 2rem;
+  }
+
+  .slideshow {
+    max-width: 70%;
+  }
+
+  .slideshow img {
+    border-radius: 16px;
+  }
+
+  .gallery {
+    gap: 20px;
+    padding: 20px 40px;
+    justify-content: center;
+    flex-wrap: wrap;
+  }
+
+  .gallery img {
+    max-width: 300px;
+  }
+
+  footer {
+    font-size: 1rem;
+    padding: 1.5rem 0;
+  }
+
+  /* Optional: Adjust header image/logo size for larger screens */
+  #logo {
+    width: 920px;
+    margin: 0 auto; /* Centers horizontally */
+    display: block; /* Makes the element a block-level element */
+  }
+
+  /* Ensure reservation map is centered */
+  .map-container {
+    max-width: 80%;
+    margin-left: auto; /* Centers horizontally */
+    margin-right: auto; /* Centers horizontally */
+    display: block; /* Ensures it behaves like a block-level element */
+    width: 100%; /* Ensures it takes up the full width of its parent container */
+  }
+  .hover-table {
+    width: 40px;
+    height: 40px;
+    font-size: 16px;
+  }
+}
+
+
+
+
+   
+  </style>
+</head>
+<body>
+
+<!-- Navbar -->
+<nav class="navbar">
+  <div class="nav-container">
+    <div class="nav-logo"></div>
+    <div class="nav-toggle" onclick="toggleMenu()">☰</div>
+    <div class="nav-links" id="navLinks">
+      <a href="#logo" onclick="closeMenu()">Home</a>
+      <a href="#events" onclick="closeMenu()">Events</a>
+      <a href="#menu" onclick="closeMenu()">Menu</a>
+      <a href="#reservations" onclick="closeMenu()">Reservations</a>
+      <a href="#hookahs" onclick="closeMenu()">Hookahs</a>
+      <a href="#gallery" onclick="closeMenu()">Gallery</a>
+    </div>
+  </div>
+</nav>
+
+<!-- Hero Header -->
+<header>
+  <img id="logo" src="./images/FinalOT.png" alt="Overtyme Bar & Grill Logo"/>
+</header>
+
+<!-- Events Section -->
+<section id="events">
+  <h2>Upcoming Events</h2>
+  <div class="slideshow">
+    <img src="https://your-event-monday.jpg" alt="Monday Event">
+    <img src="https://your-event-tuesday.jpg" alt="Tuesday Event">
+    <img src="https://your-event-wednesday.jpg" alt="Wednesday Event">
+    <img src="https://your-event-thursday.jpg" alt="Thursday Event">
+    <img src="https://your-event-friday.jpg" alt="Friday Event">
+    <img src="https://your-event-saturday.jpg" alt="Saturday Event">
+    <img src="https://your-event-sunday.jpg" alt="Sunday Event">
+  </div>
+</section>
+
+<!-- Menu Section -->
+<section id="menu" class="menu-section">
+  <h2>Menu</h2>
+  <div class="slideshow"><img src="https://your-menu-burgers.jpg" alt="Appetizers"></div>
+  <div class="slideshow"><img src="https://your-menu-wings.jpg" alt="Salads"></div>
+  <div class="slideshow"><img src="https://your-menu-sides.jpg" alt="Wide Receiver"></div>
+  <div class="slideshow"><img src="https://your-menu-burgers.jpg" alt="Slam Dunk"></div>
+  <div class="slideshow"><img src="https://your-menu-wings.jpg" alt="Tie Breakers"></div>
+  <div class="slideshow"><img src="https://your-menu-sides.jpg" alt="Red Zone"></div>
+  <div class="slideshow"><img src="https://your-menu-burgers.jpg" alt="FastBreak"></div>
+  <div class="slideshow"><img src="https://your-menu-wings.jpg" alt="Main Event"></div>
+  <div class="slideshow"><img src="https://your-menu-sides.jpg" alt="Overtyme Platter"></div>
+  <div class="slideshow"><img src="https://your-menu-burgers.jpg" alt="Thirst Quenchers"></div>
+</section>
+
+<!-- Reservations Section -->
+<section id="reservations">
+    <h2>Reserve Your Table</h2>
+    <div class="map-container" style="position: relative; width: 100%; max-width: 1280px;">
+        <img src="./images/tablerental.png" style="width: 100%; height: auto;" />
+        <div class="table1 hover-table" onclick="reserve('Table 1')">1</div>
+        <div class="table2 hover-table" onclick="reserve('Table 2')">2</div>
+        <div class="table3 hover-table" onclick="reserve('Table 3')">3</div>
+        <div class="table4 hover-table" onclick="reserve('Table 4')">4</div>
+        <div class="table5 hover-table" onclick="reserve('Table 5')">5</div>
+        <div class="table6 hover-table" onclick="reserve('Table 6')">6</div>
+        <div class="table7 hover-table" onclick="reserve('Table 7')">7</div>
+        <div class="table8 hover-table" onclick="reserve('Table 8')">8</div>
+        <div class="table9 hover-table" onclick="reserve('Table 9')">9</div>
+        <div class="table10 hover-table" onclick="reserve('Table 10')">10</div>
+        <div class="table11 hover-table" onclick="reserve('Table 11')">11</div>
+        <div class="table12 hover-table" onclick="reserve('Table 12')">12</div>
+        <div class="table13 hover-table" onclick="reserve('Table 13')">13</div>
+        <div class="table14 hover-table" onclick="reserve('Table 14')">14</div>
+        <div class="table15 hover-table" onclick="reserve('Table 15')">15</div>
+        <div class="table16 hover-table" onclick="reserve('Table 16')">16</div>
+        <div class="table17 hover-table" onclick="reserve('Table 17')">17</div>
+        <div class="table18 hover-table" onclick="reserve('Table 18')">18</div>
+        <div class="table19 hover-table" onclick="reserve('Table 19')">19</div>
+        <div class="table20 hover-table" onclick="reserve('Table 20')">20</div>
+        <div class="table21 hover-table" onclick="reserve('Table 21')">21</div>
+        <div class="table22 hover-table" onclick="reserve('Table 22')">22</div>
+        <div class="table23 hover-table" onclick="reserve('Table 23')">23</div>
+        <div class="table24 hover-table" onclick="reserve('Table 24')">24</div>
+        <div class="table25 hover-table" onclick="reserve('Table 25')">25</div>
+        <div class="table26 hover-table" onclick="reserve('Table 26')">26</div>
+        <div class="table27 hover-table" onclick="reserve('Table 27')">27</div>
+        <div class="table28 hover-table" onclick="reserve('Table 28')">28</div>
+        <div class="table29 hover-table" onclick="reserve('Table 29')">29</div>
+        <div class="table30 hover-table" onclick="reserve('Table 30')">30</div>
+        <div class="table31 hover-table" onclick="reserve('Table 31')">31</div>
+        <div class="table32 hover-table" onclick="reserve('Table 32')">32</div>
+        <div class="table33 hover-table" onclick="reserve('Table 33')">33</div>
+        <div class="table34 hover-table" onclick="reserve('Table 34')">34</div>
+    </div>
+</section>
+
+
+<!-- Hookah Section -->
+<section id="hookahs">
+  <h2>HookahS</h2>
+  <img id="logo" src="./images/Tkk.png" alt="Hookah Logo" />
+  <br/><br/>
+  <img src="https://your-hookah-menu.jpg" alt="Hookah Flavors Menu" style="width: 90%; border-radius: 10px;">
+</section>
+
+<!-- Gallery Section -->
+<section id="gallery">
+  <h2>Gallery</h2>
+  <div class="gallery">
+    <img src="./images/4450565051bf98b7a7c3705b8b5f477a.JPEG" alt="Gallery Pic">
+    <img src="./images/59f818dddff27446eee143b30fb545e7.JPEG" alt="Gallery Pic">
+    <img src="./images/84b997cb64ea7bb2cb4913bd803c5da7.JPEG" alt="Gallery Pic">
+  </div>
+</section>
+
+<!-- Footer -->
+<footer>
+  <p>&copy; 2025 OvertymeBar&Grill. All Rights Reserved.</p>
+</footer>
+
+<!-- Scripts -->
+<script>
+  function toggleMenu() {
+    document.getElementById('navLinks').classList.toggle('show');
+  }
+
+  function closeMenu() {
+    const menu = document.getElementById('navLinks');
+    if (menu.classList.contains('show')) {
+      menu.classList.remove('show');
+    }
+  }
+
+  function reserve(tableName) {
+    const contact = prompt(`You selected ${tableName}. Enter phone or email for confirmation:`);
+    if (contact) {
+      alert(`Thank you! ${tableName} is reserved until 2:00 AM. A receipt will be sent to: ${contact}`);
+    }
+  }
+</script>
+
+</body>
+</html>

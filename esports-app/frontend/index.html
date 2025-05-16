@@ -1,0 +1,37 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Esports Matchup Bot</title>
+  <link rel="stylesheet" href="styles.css">
+</head>
+<body>
+  <main class="container">
+    <button id="loadGamesBtn" class="load-btn">LOAD ESPORTS GAMES</button>
+
+    <div id="matchupSection" style="display:none;">
+      <div class="matchup-title">MATCH UP</div>
+      <div class="dropdown-row">
+        <select id="team1Dropdown" class="team-dropdown">
+          <option value="">Select Team #1</option>
+        </select>
+        <span class="vs-text">-vs-</span>
+        <select id="team2Dropdown" class="team-dropdown">
+          <option value="">Select Team #2</option>
+        </select>
+      </div>
+      <div class="players-section">
+        <div>
+          <div id="team1Players" class="players-list"></div>
+        </div>
+        <div class="vs-divider">-Vs-</div>
+        <div>
+          <div id="team2Players" class="players-list"></div>
+        </div>
+      </div>
+    </div>
+  </main>
+  <script src="script.js"></script>
+</body>
+</html>

@@ -1,0 +1,196 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Camera Photo App</title>
+    <style>
+        body {
+            margin: 0;
+            padding: 0;
+            background: #1a1a1a;
+            color: white;
+            font-family: Arial, sans-serif;
+        }
+
+        .container {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            min-height: 100vh;
+        }
+
+        #cameraPreview {
+            width: 100%;
+            max-width: 600px;
+            height: auto;
+            display: none;
+        }
+
+        .controls {
+            position: fixed;
+            bottom: 50px;
+            display: flex;
+            gap: 20px;
+        }
+
+        .capture-btn {
+            width: 60px;
+            height: 60px;
+            border-radius: 50%;
+            background: #ff4444;
+            border: 3px solid white;
+            cursor: pointer;
+            transition: transform 0.2s;
+        }
+
+        .capture-btn:active {
+            transform: scale(0.9);
+        }
+
+        #photoPreview {
+            max-width: 600px;
+            width: 100%;
+            display: none;
+            margin-top: 20px;
+        }
+
+        .filter-container {
+            display: none;
+            flex-direction: column;
+            align-items: center;
+        }
+
+        .filter-options {
+            display: flex;
+            gap: 10px;
+            margin: 20px 0;
+        }
+
+        .filter {
+            width: 100px;
+            height: 100px;
+            border: 2px solid white;
+            cursor: pointer;
+        }
+
+        .active-filter {
+            border-color: #00ff00;
+        }
+
+        /* Example filters */
+        .normal { filter: none; }
+        .grayscale { filter: grayscale(100%); }
+        .sepia { filter: sepia(100%); }
+        .invert { filter: invert(100%); }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <video id="cameraPreview" autoplay></video>
+        <canvas id="photoCanvas" style="display: none;"></canvas>
+        <img id="photoPreview" alt="Captured photo">
+        
+        <div class="controls">
+            <button id="captureButton" class="capture-btn"></button>
+        </div>
+
+        <div class="filter-container">
+            <div class="filter-options">
+                <div class="filter normal active-filter" data-filter="normal"></div>
+                <div class="filter grayscale" data-filter="grayscale"></div>
+                <div class="filter sepia" data-filter="sepia"></div>
+                <div class="filter invert" data-filter="invert"></div>
+            </div>
+            <button id="saveFilter">Save Filter</button>
+        </div>
+
+        <button id="downloadBtn" style="display: none;">Download Photo</button>
+    </div>
+
+    <script>
+        const video = document.getElementById('cameraPreview');
+        const canvas = document.getElementById('photoCanvas');
+        const captureBtn = document.getElementById('captureButton');
+        const photoPreview = document.getElementById('photoPreview');
+        let currentStream;
+
+        // Initialize camera
+        async function initCamera() {
+            try {
+                const stream = await navigator.mediaDevices.getUserMedia({ 
+                    video: { facingMode: 'user' } 
+                });
+                video.srcObject = stream;
+                currentStream = stream;
+                video.style.display = 'block';
+            } catch (err) {
+                console.error('Error accessing camera:', err);
+            }
+        }
+
+        // Capture photo
+        function capturePhoto() {
+            const context = canvas.getContext('2d');
+            canvas.width = video.videoWidth;
+            canvas.height = video.videoHeight;
+            context.drawImage(video, 0, 0);
+            
+            photoPreview.src = canvas.toDataURL('image/png');
+            photoPreview.style.display = 'block';
+            video.style.display = 'none';
+            
+            showPreviewControls();
+        }
+
+        // Show preview controls
+        function showPreviewControls() {
+            document.querySelector('.controls').innerHTML = `
+                <button onclick="retakePhoto()">Retake</button>
+                <button onclick="showFilters()">Accept</button>
+            `;
+        }
+
+        // Retake photo
+        function retakePhoto() {
+            photoPreview.style.display = 'none';
+            video.style.display = 'block';
+            document.querySelector('.controls').innerHTML = `
+                <button class="capture-btn" onclick="capturePhoto()"></button>
+            `;
+        }
+
+        // Show filters
+        function showFilters() {
+            document.querySelector('.filter-container').style.display = 'flex';
+            document.querySelector('.controls').style.display = 'none';
+            
+            // Add filter click handlers
+            document.querySelectorAll('.filter').forEach(filter => {
+                filter.addEventListener('click', function() {
+                    document.querySelector('.active-filter').classList.remove('active-filter');
+                    this.classList.add('active-filter');
+                    photoPreview.className = '';
+                    photoPreview.classList.add(this.dataset.filter);
+                });
+            });
+        }
+
+        // Initialize app
+        document.getElementById('captureButton').addEventListener('click', capturePhoto);
+        document.getElementById('saveFilter').addEventListener('click', () => {
+            document.getElementById('downloadBtn').style.display = 'block';
+        });
+        
+        document.getElementById('downloadBtn').addEventListener('click', () => {
+            const link = document.createElement('a');
+            link.download = 'photo.png';
+            link.href = canvas.toDataURL();
+            link.click();
+        });
+
+        // Start camera when page loads
+        initCamera();
+    </script>
+</body>
+</html>
